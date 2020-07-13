@@ -1,0 +1,169 @@
+wb = xlsx_package.workbook
+
+wb.styles.fonts.first.name = 'ＭＳ Ｐゴシック'
+small = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true, wrap_text: true}, sz: 12)
+small_yl = wb.styles.add_style(bg_color: 'fffA99', border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true, wrap_text: true}, sz: 12)
+small_gr = wb.styles.add_style(bg_color: 'e0e0e0', border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true, wrap_text: true}, sz: 12)
+small_gr_t = wb.styles.add_style(bg_color: 'e0e0e0', border: {edges: [:right, :bottom, :left], style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 12)
+medium = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 13)
+medium_gr = wb.styles.add_style(bg_color: 'e0e0e0', border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 13)
+medium_gr_t = wb.styles.add_style(bg_color: 'e0e0e0', border: {edges: [:right, :bottom, :left], style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 13)
+large = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 16)
+large_yl = wb.styles.add_style(bg_color: 'fffA99', border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 16)
+large_gr_b = wb.styles.add_style(bg_color: 'e0e0e0', border: {edges: [:top, :right, :left], style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 16)
+number = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, font_name:'HG丸ｺﾞｼｯｸM-PRO', alignment: {horizontal: :right, vertical: :center, wrap_text: true}, sz: 14)
+number_t = wb.styles.add_style(border: {edges: [:right, :bottom, :left], style: :thin, color: 'FF333333'}, font_name:'HG丸ｺﾞｼｯｸM-PRO', alignment: {horizontal: :right, vertical: :center, wrap_text: true, wrap_text: true}, sz: 14)
+number_b = wb.styles.add_style(border: {edges: [:top, :right, :left], style: :thin, color: 'FF333333'}, font_name:'HG丸ｺﾞｼｯｸM-PRO', alignment: {horizontal: :right, vertical: :center, wrap_text: true}, sz: 14)
+
+wb.add_worksheet(name: "#{@range_start.year}年#{@range_start.month}月~#{@range_end.year}年#{@range_end.month}月") do |sheet|
+
+  sheet.add_row do |row|
+    row.add_cell '', style: large_gr_b
+    0.upto(5){|num| row.add_cell "#{(@range_start + num.month).month}月度", style: large_gr_b }
+  end
+
+  sheet.add_row do |row|
+    row.add_cell '管理者', style: small_gr_t
+    0.upto(5){|num| row.add_cell "走行距離稼働状況", style: medium_gr_t }
+  end
+
+  sheet.add_row do |row|
+    row.add_cell '車番', style: small_gr
+    6.times{row.add_cell '給油計', style: medium_gr }
+  end
+
+  sheet.add_row do |row|
+    row.add_cell '車名', style: small_gr
+    6.times{row.add_cell '燃費(累計)', style: medium_gr}
+  end
+
+  sheet.add_row do |row|
+    row.add_cell '購入日', style: small_gr
+    6.times{row.add_cell '備考', style: medium_gr}
+  end
+
+  sheet.add_row do |row|
+    row.add_cell '車検日', style: small_gr
+    6.times{row.add_cell '', style: medium_gr}
+  end
+  sheet.merge_cells "B5:B6"
+  sheet.merge_cells "C5:C6"
+  sheet.merge_cells "D5:D6"
+  sheet.merge_cells "E5:E6"
+  sheet.merge_cells "F5:F6"
+  sheet.merge_cells "G5:G6"
+
+  @cars.each do |car|
+
+    sheet.add_row do |row|
+      row.add_cell car.borrower, style: small
+      i = 0
+      while i < 6
+        monthly_uses = car.uses.where(use_day: (@range_start + i.month)..(@range_start + (i + 1).month - 1.day))
+        if monthly_uses.present?
+          row.add_cell monthly_uses.sum(:distance), style: number
+        else
+          row.add_cell '0', style: number
+        end
+        i += 1
+      end
+    end
+
+    sheet.add_row do |row|
+      row.add_cell car.number, style: small
+      i = 0
+      while i < 6
+        monthly_uses = car.uses.where(use_day: (@range_start + i.month)..(@range_start + (i + 1).month - 1.day))
+        if monthly_uses.present?
+          row.add_cell  monthly_uses.sum(:refueling_amount), style: number
+        else
+          row.add_cell '0', style: number
+        end
+        i += 1
+      end
+    end
+
+    sheet.add_row do |row|
+      row.add_cell car.car_name, style: small
+      i = 0
+      while i < 6
+        monthly_uses = car.uses.where(use_day: (@range_start + i.month)..(@range_start + (i + 1).month - 1.day))
+        if monthly_uses.where.not(refueling_amount: 0).present?
+          row.add_cell sprintf("%.2f", (monthly_uses.sum(:distance)/monthly_uses.sum(:refueling_amount)).round(2)), style: number
+        else
+          row.add_cell '0', style: number
+        end
+        i += 1
+      end
+    end
+
+    sheet.add_row do |row|
+      row.add_cell "#{car.purchase_day.year}/#{car.purchase_day.month}/#{car.purchase_day.day}", style: small_yl
+      i = 0
+      while i < 6
+        monthly_uses = car.uses.where(use_day: (@range_start + i.month)..(@range_start + (i + 1).month - 1.day)).order(:use_day)
+        monthly_memos = car.memos.where(memo_day: (@range_start + i.month)..(@range_start + (i + 1).month - 1.day)).order(:memo_day)
+        remark = ''
+        if monthly_uses.where(wash: '有').present?
+          remark << "#{monthly_uses.where(wash: '有').last.use_day.day}日洗車"
+        else
+          remark << ''
+        end
+        if monthly_uses.where(oil_change: '有').present?
+          unless remark == ''
+            remark << "\r\n#{monthly_uses.where(oil_change: '有').last.use_day.day}日オイル交換"
+          else
+            remark << "#{monthly_uses.where(oil_change: '有').last.use_day.day}日オイル交換"
+          end
+        else
+          remark << ''
+        end
+        if monthly_uses.where(self_inspection: '有').present?
+          unless remark == ''
+            remark << "\r\n#{monthly_uses.where(self_inspection: '有').last.use_day.day}日自主点検"
+          else
+            remark << "#{monthly_uses.where(self_inspection: '有').last.use_day.day}日自主点検"
+          end
+        else
+          remark << ''
+        end
+        if monthly_memos.present?
+          monthly_memos.order(created_at: :desc).each do |memo|
+            unless remark == ''
+              remark << "\r\n#{memo.memo_day.day}日#{memo.content}"
+            else
+              remark << "#{memo.memo_day.day}日#{memo.content}"
+            end
+          end
+        end
+        row.add_cell remark, style: number_b
+        i += 1
+      end
+    end
+
+    sheet.add_row do |row|
+      if car.inspections.present?
+        row.add_cell "#{car.inspections.last.limit.year}/#{car.inspections.last.limit.month}/#{car.inspections.last.limit.day}", style: large_yl
+      else
+        row.add_cell '車検登録なし', style: large_yl
+      end
+      i = 0
+      while i < 6
+        monthly_inspection = car.inspections.where(start_day: (@range_start + i.month)..(@range_start + (i + 1).month - 1.day)).last
+        if monthly_inspection.present?
+          if monthly_inspection.start_day == monthly_inspection.end_day
+            row.add_cell "#{monthly_inspection.start_day.day}日車検", style: number_t
+          elsif monthly_inspection.start_day.month == monthly_inspection.end_day.month
+            row.add_cell "#{monthly_inspection.start_day.day}日〜#{monthly_inspection.end_day.day}日車検", style: number_t
+          else
+            row.add_cell "#{monthly_inspection.start_day.day}日〜#{monthly_inspection.end_day.month}月#{monthly_inspection.end_day.day}日車検", style: number_t
+          end
+        else
+          row.add_cell '', style: number_t
+        end
+        i += 1
+      end
+    end
+  end
+  sheet.column_widths 20, 22, 22, 22, 22, 22, 22
+end

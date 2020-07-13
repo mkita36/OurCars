@@ -1,0 +1,39 @@
+= form_with(model: [@company, :manager, @car, inspection], local: true) do |form|
+  - if inspection.errors.any?
+    #error_explanation
+      ul
+        - inspection.errors.full_messages.each do |message|
+          li
+            = message
+  .field
+    .row
+      .col-5
+        = form.label :依頼日
+      .col-7
+        = form.date_select :start_day, include_blank: true
+  .field
+    .row
+      .col-5
+        = form.label :終了日
+      .col-7
+        = form.date_select :end_day, include_blank: true
+  .field
+    .row
+      .col-5
+        = form.label :車検料金（円）
+      .col-7
+        = form.number_field :fee
+  .field
+    .row
+      .col-5
+        = form.label :次回車検満了日
+      .col-7
+        = form.date_select :limit
+  .field
+    .row
+      .col-5
+        = form.label :メモ
+      .col-7
+        = form.text_area :inspection_memo
+  .actions
+    = form.submit("登録", class:'btn btn-primary')

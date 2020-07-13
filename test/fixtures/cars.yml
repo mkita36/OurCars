@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  car_name: MyString
+  number: 1
+  lease: MyString
+  tank: 1
+  oil_frequency: 1
+  initial_odometer: 1
+  company: one
+
+two:
+  type: 
+  car_name: MyString
+  number: 1
+  lease: MyString
+  tank: 1
+  oil_frequency: 1
+  initial_odometer: 1
+  company: two

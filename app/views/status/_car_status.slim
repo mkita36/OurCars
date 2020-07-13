@@ -1,0 +1,75 @@
+tr
+  td.px-0.py-1.font-weight-bold
+    = car.car_name
+    br
+    = car.number
+    br
+    = link_to '実績', company_car_uses_path(@company, car), class:'btn btn-info btn-sm font-weight-bold'
+  td.px-0.py-1.font-weight-bold
+    = car.state
+  td.px-0.py-1.font-weight-bold
+    - min_reservation = car.reservations.where("reservation_day >= ?", Date.today).sort_by{|reservation| (Date.today - reservation.reservation_day).abs}.first
+    - if min_reservation
+      = l min_reservation.reservation_day, format: :short
+      br
+      = min_reservation.user.user_name
+    - else
+      |  予約無し
+  td.px-0.py-1.font-weight-bold.text-danger
+    - st = ''
+    - if car.uses.count >= 1
+      - if car.mileage
+        - if (car.uses.order(:id).last.odometer - car.uses.where.not(refueling_amount: 0).order(:id).last.odometer) > car.mileage * car.tank/2
+          - st << '給油'
+      - elsif car.uses.where.not(refueling_amount: 0) == 1
+        - if (car.uses.order(:id).last.odometer - car.uses.where.not(refueling_amount: 0).order(:id).last.odometer) > car.initial_mileage * car.tank/2
+          - st << '給油'
+      - elsif car.uses.where.not(refueling_amount: 0) == 0
+        - if (car.uses.order(:id).last.odometer - car.initial_odometer) > car.initial_mileage * car.tank/2
+          - st << '給油'
+      - if car.uses.where(wash: "有").count >= 1
+        - if (Date.today - car.uses.where(wash: "有").order(:id).last.use_day) > 30
+          - unless st == ''
+            - st << "\r\n洗車"
+          - else
+            - st << "洗車"
+      - elsif Date.today - car.purchase_day > 30
+        - unless st == ''
+          - st << "\r\n洗車"
+        - else
+          - st << '洗車'
+      - if car.uses.where(oil_change: "有").count >= 1
+        - if (car.uses.order(:id).last.odometer - car.uses.where(oil_change: "有").order(:id).last.odometer) > car.oil_frequency
+          - unless st == ''
+            - st << "\r\nオイル交換"
+          - else
+            - st << 'オイル交換'
+      - elsif car.uses.order(:id).last.odometer - car.initial_odometer > car.oil_frequency
+        - unless st == ''
+          - st << "\r\nオイル交換"
+        - else
+          - st << 'オイル交換'
+    = safe_join(st.split("\n"), tag(:br))
+  td.px-0.py-1.font-weight-bold
+    - if car.state == '空車'
+      - if car.borrower == "#{current_user.user_name}"
+        .p-0
+          = link_to '乗車', company_car_ride_path(@company, car), class:'btn btn-primary btn-sm font-weight-bold'
+      - else
+        .pb-1
+          = link_to '乗車', company_car_ride_path(@company, car), class:'btn btn-primary btn-sm font-weight-bold'
+    - elsif car.state.include?(current_user.user_name)
+      .pb-1
+        = link_to '降車', new_company_car_use_path(@company, car), class:'btn btn-danger btn-sm font-weight-bold'
+      - if car.borrower == "#{current_user.user_name}"
+        .pb-0
+          = link_to '取消', company_car_no_ride_path(@company, car), class:'btn btn-outline-secondary btn-sm font-weight-bold text-secondary'
+      - else
+        .pb-1
+          = link_to '取消', company_car_no_ride_path(@company, car), class:'btn btn-outline-secondary btn-sm font-weight-bold text-secondary'
+    - elsif car.state == '車検中'
+      .pb-1
+        = link_to '検終', new_company_car_use_path(@company, car), class:'btn btn-secondary btn-sm font-weight-bold'
+    - unless car.borrower == "#{current_user.user_name}"
+      .p-0
+        = link_to '予約', company_car_reservations_path(@company, car), class:'btn btn-success btn-sm font-weight-bold'

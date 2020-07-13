@@ -1,0 +1,75 @@
+= form_with(model: [@company, :manager, car], local: true) do |form|
+  - if car.errors.any?
+    #error_explanation
+      ul
+        - car.errors.full_messages.each do |message|
+          li
+            = message
+
+  .field
+    .row
+      .col-5
+        = form.label :平仮名・指定番号
+      .col-7
+        = form.text_field :region, placeholder: "神戸000"
+  .field
+    .row
+      .col-5
+        = form.label :地域名・分類番号
+      .col-7
+        = form.text_field :number, placeholder: "あ0000"
+  .field
+    .row
+      .col-5
+        = form.label :車名
+      .col-7
+        = form.text_field :car_name
+  .field
+    .row
+      .col-5
+        = form.label :購入日
+      .col-7
+        = form.date_select :purchase_day, start_year:2000, end_year:2050
+  .field
+    .row
+      .col-5
+        = form.label :管理者
+      .col-7
+        - borrower_array = []
+        - @company.users.all.each do |user|
+          - borrower_array.push(user[:user_name])
+        - borrower_array.push('共用')
+        = form.select(:borrower, borrower_array)
+  .field
+    .row
+      .col-5
+        = form.label :'保管場所(車庫証明)'
+      .col-7
+        = form.text_field :parking
+  .field
+    .row
+      .col-5
+        = form.label :タンク容量（ℓ）
+      .col-7
+        = form.number_field(:tank, in: 20..120, step:5, value:70)
+  .field
+    .row
+      .col-5
+        = form.label :オイル交換頻度（km）
+      .col-7
+        = form.number_field(:oil_frequency, in: 2000..30000, step:1000, value:5000)
+  .field
+    .row
+      .col-5
+        = form.label :初期メーター（km）
+      .col-7
+        = form.number_field :initial_odometer
+  .field
+    .row
+      .col-5
+        = form.label :'初期燃費（km/ℓ）'
+      .col-7
+        = form.number_field :initial_mileage, step: '0.01'
+  = form.hidden_field :state, value: '空車'
+  .actions
+    = form.submit("登録", class:'btn btn-primary')

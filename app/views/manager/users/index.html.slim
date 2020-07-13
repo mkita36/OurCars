@@ -1,0 +1,36 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | ユーザー一覧
+.row.pb-2
+  .col
+    = link_to 'ユーザー新規登録', new_company_manager_user_path, class:'btn btn-outline-primary text-primary'
+    |　
+    = link_to '戻る', company_manager_cars_path(@company), class:'btn btn-outline-success text-success'
+.table-responsive
+  table.table.table-sm.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | 名前
+        th
+          | メールアドレス
+        th
+          | プリペイドカード
+        th
+          | ユーザー情報
+    tbody
+      - @user.each do |user|
+        tr
+          td.align-middle
+            = user.user_name
+          td.align-middle
+            = user.email
+          td.align-middle.text-center
+            = user.card.number
+            | 枚
+            |　　
+            = link_to '編集', edit_company_manager_user_card_path(@company, user, user.card), class:'btn btn-outline-secondary text-secondary btn-sm'
+          td.text-center
+            = link_to '編集', edit_company_manager_user_path(@company, user), class:'btn btn-outline-secondary text-secondary btn-sm'
+            |　　
+            = link_to '削除', company_manager_user_path(@company, user), class:'btn btn-outline-secondary text-secondary btn-sm', method: :delete, data: { confirm: '本当に削除しますか?' }

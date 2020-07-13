@@ -1,0 +1,33 @@
+= form_with(model: [@company, :manager, manager], local: true) do |form|
+  - if manager.errors.any?
+    #error_explanation
+      ul
+        - manager.errors.full_messages.each do |message|
+          li
+            = message
+  .field
+    .row
+      .col-5
+        = form.label :名前
+      .col-7
+        = form.text_field :manager_name
+  .field
+    .row
+      .col-5
+        = form.label :Eメール
+      .col-7
+        = form.email_field :email, autocomplete: "email"
+  .field
+    .row
+      .col-5
+        = form.label :'パスワード(4文字以上)'
+      .col-7
+        = form.password_field :password, autocomplete: "new-password"
+  .field
+    .row
+      .col-5
+        = form.label :'パスワード(確認用)'
+      .col-7
+        = form.password_field :password_confirmation, autocomplete: "new-password"
+  .actions
+    = form.submit("登録", class:'btn btn-primary')

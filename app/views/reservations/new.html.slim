@@ -1,0 +1,11 @@
+h2.pt-2.pd-2
+  | 予約新規登録
+br
+h5.font-weight-bold
+  = @car.car_name
+  |  
+  = @car.number
+br
+= render 'form', reservation: @reservation
+.text-right
+  = link_to '戻る', company_car_reservations_path(@company, @car), class:'btn btn-outline-success text-success'

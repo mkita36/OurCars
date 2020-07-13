@@ -1,0 +1,86 @@
+.row.pt-4.pb-2.align-items-center
+  .h3
+    | 車両一覧
+.row.pb-2.align-items-center
+  .col-5
+    = link_to '車両新規登録', new_company_manager_car_path(@company), class:'btn btn-outline-primary text-primary'
+  .col-7
+    .col.text-right.pb-1
+      = form_with scope: :range, url:company_manager_monthly_report_path(@company, format: :xlsx), method: 'get', local:true do |form|
+        = form.date_select(:range, discard_day:true)
+        = form.submit('運転月報 出力', data: {disable_with: false}, class:'btn btn-outline-secondary text-dark btn-sm')
+    .col.text-right
+      = form_with scope: :range, url:company_manager_half_period_report_path(@company, format: :xlsx), method: 'get', local:true do |form|
+        = form.date_select(:range, discard_day:true)
+        = form.submit('運転月報集計表 出力', data: {disable_with: false}, class:'btn btn-outline-secondary text-dark btn-sm')
+
+.table-responsive
+  table.table.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | 車名
+        th
+          | 車番
+        th
+          | 管理者
+        th
+          | 車検満了日
+        th
+          | 車検詳細
+        th
+          | 洗車
+        th
+          | オイル交換まで
+        th
+          | メンテ情報
+        th
+          | 現在の状態
+        th
+          | 利用情報
+        th
+          | 車両詳細情報
+    tbody
+      - @cars.each do |car|
+        tr
+          td.align-middle.text-center
+            = car.car_name
+          td.align-middle.text-center
+            = car.number
+          td.align-middle.text-center
+            = car.borrower
+          td.align-middle.text-center
+            - if car.inspections.present?
+              = l car.inspections.order(:id).last.limit, format: :default
+            - else
+              | 車検実績無し
+          td.align-middle.text-center
+            = link_to '確認', company_manager_car_inspections_path(@company, car), class:'btn btn-outline-secondary text-secondary btn-sm p-1'
+          td.align-middle.text-center
+            - if car.uses.where(wash: "有").present?
+              = l car.uses.where(wash: "有").order(:id).last.use_day, format: :short
+              | 実施
+              - if (Date.today - car.uses.where(wash: "有").order(:id).last.use_day) > 30
+                br
+                .text-danger
+                  | 要 洗車
+            - else
+              | 実績無し
+          td.align-middle.text-center
+            - if car.uses.where(oil_change: "有").present?
+              = (car.oil_frequency - (car.uses.last.odometer - car.uses.where(oil_change: "有").last.odometer)).to_s(:delimited)
+              |  km走行可能
+              - if (car.uses.order(:id).last.odometer - car.uses.where(oil_change: "有").order(:id).last.odometer) > car.oil_frequency
+                br
+                .text-danger
+                  | 要 交換
+            - else
+              | 交換実績無し
+          td.align-middle.text-center
+            = link_to '確認', company_manager_car_memos_path(@company, car), class:'btn btn-outline-secondary text-secondary btn-sm p-1'
+          td.align-middle.text-center
+            = car.state
+          td.align-middle.text-center
+            = link_to '確認', company_manager_car_uses_path(@company, car), class:'btn btn-outline-secondary text-secondary btn-sm p-1'
+          td.align-middle.text-center
+            = link_to '確認', company_manager_car_path(@company, car), class:'btn btn-outline-secondary text-secondary btn-sm p-1'

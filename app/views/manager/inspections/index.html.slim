@@ -1,0 +1,40 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | #{@car.car_name} #{@car.number}　車検情報
+.row.pb-2
+  .col
+    = link_to '車検新規登録', new_company_manager_car_inspection_path, class:'btn btn-outline-primary text-primary'
+    |　
+    = link_to '戻る', company_manager_cars_path(@company), class:'btn btn-outline-success text-success'
+.table-responsive
+  table.table.table-sm.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | 車検依頼日
+        th
+          | 車検料金
+        th
+          | 次回車検期限
+        th
+          | メモ
+        th
+          | 車検情報
+    tbody
+      - @inspections.each do |inspection|
+        tr
+          td.align-middle.text-center
+            - if inspection.start_day.present?
+              = l inspection.start_day, format: :default
+          td.align-middle.text-right
+            - if inspection.fee.present?
+              = inspection.fee.to_s(:delimited)
+              |  円
+          td.align-middle.text-center
+            = l inspection.limit, format: :default
+          td.align-middle.text-center
+            = inspection.inspection_memo
+          td.text-center
+            = link_to '編集', edit_company_manager_car_inspection_path(@company, @car, inspection), class:'btn btn-outline-secondary text-secondary btn-sm'
+            |　
+            = link_to '削除', company_manager_car_inspection_path(@company, @car, inspection), class:'btn btn-outline-secondary text-secondary btn-sm', method: :delete, data: { confirm: '本当に削除しますか?' }

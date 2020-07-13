@@ -1,0 +1,5 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | プリペイドカード枚数編集
+= render 'form', card: @user.card
+= link_to '戻る', company_manager_users_path(@company), class:'btn btn-outline-success text-success'

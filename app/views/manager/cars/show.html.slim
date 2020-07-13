@@ -1,0 +1,134 @@
+.row.pt-4.pb-2.align-items-center
+  .h3
+    = @car.car_name
+    |  
+    = @car.number
+    |  車両詳細情報
+.row.pb-2.align-items-center
+  .col-7
+    = link_to '基本情報編集', edit_company_manager_car_path(@company, @car), class:'btn btn-outline-secondary text-secondary'
+    | 　
+    = link_to '戻る', company_manager_cars_path(@company), class:'btn btn-outline-success text-success'
+  .col-5.text-right
+    = link_to 'この車両を削除する', company_manager_car_path(@company, @car), class:'btn btn-outline-danger text-danger text-right', method: :delete, data: { confirm: '本当に削除しますか？' }
+.table-responsive
+  table.table.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th colspan='2'
+          | 基 本 情 報
+      tr
+        th
+          | 地域名・分類番号
+        td.align-middle.text-center
+          = @car.region
+      tr
+        th
+          | 平仮名・指定番号
+        td.align-middle.text-center
+          = @car.number
+      tr
+        th
+          | 車名
+        td.align-middle.text-center
+          = @car.car_name
+      tr
+        th
+          | 購入日
+        td.align-middle.text-center
+          = l @car.purchase_day, format: :default
+      tr
+        th
+          | 管理者
+        td.align-middle.text-center
+          = @car.borrower
+      tr
+        th
+          | 保管場所(車庫証明)
+        td.align-middle.text-center
+          = @car.parking
+      tr
+        th
+          | タンク容量
+        td.align-middle.text-center
+          = @car.tank
+          |  ℓ
+      tr
+        th
+          | オイル交換頻度
+        td.align-middle.text-center
+          = @car.oil_frequency
+          |  km
+      tr
+        th
+          | 初期メーター
+        td.align-middle.text-center
+          = @car.initial_odometer
+          |  km
+      tr
+        th
+          | 初期燃費
+        td.align-middle.text-center
+          = @car.initial_mileage
+          |  km/ℓ
+      tr
+        th colspan='2'
+          | 実 績 情 報
+      tr
+        th
+          | 現在のメーター
+        td.align-middle.text-center
+          - if @car.uses.present?
+            = @car.uses.order(:id).last.odometer.to_s(:delimited)
+            |  km
+          - else
+            = @car.initial_odometer.to_s(:delimited)
+            |  km
+      tr
+        th
+          | 最近の実績燃費
+        td.align-middle.text-center
+          - if @car.uses.where.not(refueling_amount: 0).count >=2
+            = sprintf("%.2f", @car.mileage)
+            |  km/ℓ
+          - else
+            |  実績無し
+      tr
+        th
+          | 次回車検満了日
+        td.align-middle.text-center
+          - if @car.inspections.present?
+            = l @car.inspections.order(:id).last.limit, format: :default
+          - else
+            |  車検実績無し
+      tr
+        th
+          | 最後の洗車
+        td.align-middle.text-center
+          - if @car.uses.where(wash: "有").present?
+            = l @car.uses.where(wash: "有").order(:id).last.use_day, format: :short
+            |  実施
+            - if (Date.today - @car.uses.where(wash: "有").order(:id).last.use_day) > 30
+              br
+              .text-danger
+                | 要 洗車
+          - else
+            |  実績無し
+      tr
+        th
+          | オイル交換目安まであと
+        td.align-middle.text-center
+          - if @car.uses.where(oil_change: "有").present?
+            = (@car.oil_frequency - (@car.uses.order(:id).last.odometer - @car.uses.where(oil_change: "有").order(:id).last.odometer)).to_s(:delimited)
+            |  km 走行可能
+            - if (@car.uses.order(:id).last.odometer - @car.uses.where(oil_change: "有").order(:id).last.odometer) > @car.oil_frequency
+              br
+              .text-danger
+                | 要 交換
+          - else
+            |  交換実績無し
+      tr
+        th
+          | 現在の状態
+        td.align-middle.text-center
+          = @car.state

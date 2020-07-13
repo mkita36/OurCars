@@ -1,0 +1,21 @@
+= form_with(model: [@company, :manager, @car, memo], local: true) do |form|
+  - if memo.errors.any?
+    #error_explanation
+      ul
+        - memo.errors.full_messages.each do |message|
+          li
+            = message
+  .field
+    .row
+      .col-5
+        = form.label :メンテナンス日
+      .col-7
+        = form.date_select :memo_day
+  .field
+    .row
+      .col-5
+        = form.label :内容
+      .col-7
+        = form.text_area :content
+  .actions
+    = form.submit("登録", class:'btn btn-primary')

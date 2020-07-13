@@ -1,0 +1,29 @@
+.simple-calendar
+  .row.justify-content-between.calendar-heading[style="text-align:center"]
+    .col-3.h5.text-right.position-relative
+      |←
+      = link_to t('simple_calendar.previous', default: ''), calendar.url_for_previous_view, class:'stretched-link'
+    .col-6.h5
+      span.calendar-title.h5
+        = start_date.year
+        |年
+        = t('date.month_names')[start_date.month]
+        |月
+    .col-3.h5.text-left.position-relative
+      |→
+      = link_to t('simple_calendar.next', default: ''), calendar.url_for_next_view, class:'stretched-link'
+  table.table.table-striped
+    thead
+      tr
+        - date_range.slice(0, 7).each do |day|
+          th
+            = t('date.abbr_day_names')[day.wday]
+    tbody
+      - date_range.each_slice(7) do |week|
+        tr
+          - week.each do |day|
+            = content_tag :td, class: calendar.td_classes_for(day), style:"padding: 0px;" do
+              - if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(block)
+                - capture_haml(day, sorted_events.fetch(day, []), &block)
+              - else
+                - block.call day, sorted_events.fetch(day, [])

@@ -1,0 +1,193 @@
+wb = xlsx_package.workbook
+
+wb.styles.fonts.first.name = 'ＭＳ Ｐゴシック'
+xxsmall = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 9)
+xxsmall_trbl = wb.styles.add_style(alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 9)
+xsmall = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 10)
+xsmall_rbl = wb.styles.add_style(border: {edges: [:top], style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 10)
+small = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 11)
+small_trbl = wb.styles.add_style(alignment: {horizontal: :left, vertical: :center, wrap_text: true}, sz: 9)
+medium = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 12)
+medium_trbl = wb.styles.add_style(alignment: {horizontal: :left, vertical: :center, wrap_text: true}, sz: 12)
+large = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 14)
+xlarge = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :center, vertical: :center, wrap_text: true}, sz: 16)
+number = wb.styles.add_style(border: {style: :thin, color: 'FF333333'}, alignment: {horizontal: :right, vertical: :center, wrap_text: true}, sz: 11)
+
+@cars.each do |car|
+
+  monthly_uses = car.uses.where(use_day: @range_start..@range_end)
+  before_uses = car.uses.where(use_day: '1990-01-01'..@range_end)
+
+  wb.add_worksheet(name: "#{car.region}#{car.number}") do |sheet|
+
+    sheet.add_row(
+      ['車両管理者（月間走行距離ﾁｪｯｸ）→総務担当（収集・記入ﾁｪｯｸ）→工務部長（確認）→社長（確認）→総務部長（確認）→総務担当（保管）'],
+      height: 15,
+      style: xxsmall_trbl
+    )
+    sheet.merge_cells "A1:H1"
+
+    sheet.add_row(
+      ['運転速報','','','',"#{@range_start.year}年 #{@range_start.month}月分",'','',''],
+      height: 24,
+      style: xlarge
+    )
+    sheet.merge_cells "A2:D2"
+    sheet.merge_cells "E2:H2"
+
+    sheet.add_row(
+      ['車番 ・ 車種 ・ 車両管理者','','','','直近のオイル交換','','次回車検満了日',''],
+      height: 20,
+      style: small
+    )
+    sheet.merge_cells "A3:D3"
+    sheet.merge_cells "E3:F3"
+    sheet.merge_cells "G3:H3"
+
+    sheet.add_row do |row|
+      row.add_cell car.region, style: medium
+      row.add_cell '', style: medium
+      row.add_cell car.car_name, style: medium
+      row.add_cell '', style: medium
+      if car.uses.where(oil_change: '有').present?
+        row.add_cell "#{car.uses.where(oil_change: '有').last.odometer.to_s(:delimited)}km時に実施", style: medium
+      else
+        row.add_cell 'オイル交換実績なし', style: medium
+      end
+      row.add_cell '', style: medium
+      if car.inspections.present?
+        row.add_cell "#{car.inspections.last.limit.year}年#{car.inspections.last.limit.month}月#{car.inspections.last.limit.day}日", style: medium
+      else
+        row.add_cell '車検登録なし', style: medium
+      end
+      row.add_cell '', style: medium
+    end
+    sheet.merge_cells "A4:B4"
+    sheet.merge_cells "C4:D4"
+    sheet.merge_cells "E4:F4"
+    sheet.merge_cells "G4:H4"
+
+    sheet.add_row do |row|
+      row.add_cell car.number, style: medium
+      row.add_cell '', style: medium
+      row.add_cell car.borrower, style: medium
+      row.add_cell '', style: medium
+      if car.uses.present?
+        if car.uses.where(oil_change: '有').present?
+          if (car.uses.last.odometer - car.uses.where(oil_change: '有').last.odometer) > car.oil_frequency
+            row.add_cell '要オイル交換', style: medium
+          else
+            row.add_cell "あと#{(car.oil_frequency - (car.uses.last.odometer - car.uses.where(oil_change: '有').last.odometer)).to_s(:delimited)}km走行可能", style: medium
+          end
+        elsif 
+          if (car.uses.last.odometer - car.initial_odometer) > car.oil_frequency
+            row.add_cell '要オイル交換', style: medium
+          else
+            row.add_cell "あと#{(car.oil_frequency - (car.uses.last.odometer - car.initial_odometer)).to_s(:delimited)}km走行可能", style: medium
+          end
+        end
+      else
+        row.add_cell "あと#{(car.oil_frequency - car.initial_odometer).to_s(:delimited)}km走行可能", style: medium
+      end
+      row.add_cell '', style: medium
+      row.add_cell '-', style: medium
+      row.add_cell '', style: medium
+    end
+    sheet.merge_cells "A5:B5"
+    sheet.merge_cells "C5:D5"
+    sheet.merge_cells "E5:F5"
+    sheet.merge_cells "G5:H5"
+
+    sheet.add_row([''], height: 10)
+
+    sheet.add_row do |row|
+      row.add_cell '【月間チェック】', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+      row.add_cell '□ エンジンオイル', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+      row.add_cell '□ ラジエーター水', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+      row.add_cell '□ バッテリー液', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+    end
+    sheet.merge_cells "A7:B7"
+    sheet.merge_cells "C7:D7"
+    sheet.merge_cells "E7:F7"
+    sheet.merge_cells "G7:H7"
+
+    sheet.add_row do |row|
+      row.add_cell '', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+      row.add_cell '□ タイヤの劣化、ひび割れ', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+      row.add_cell '□ 洗車', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+      row.add_cell '□ 車内清掃', style: medium_trbl
+      row.add_cell '', style: medium_trbl
+    end
+    sheet.merge_cells "A8:B8"
+    sheet.merge_cells "C8:D8"
+    sheet.merge_cells "E8:F8"
+    sheet.merge_cells "G8:H8"
+
+    sheet.add_row([''], height: 10)
+
+    sheet.add_row do |row|
+      row.add_cell '日付', style: xsmall
+      row.add_cell '運転者', style: xsmall
+      row.add_cell '行先', style: xsmall
+      row.add_cell '乗車時ﾒｰﾀｰ', style: xsmall
+      row.add_cell '降車時ﾒｰﾀｰ', style: xsmall
+      row.add_cell '走行距離', style: xsmall
+      row.add_cell '給油', style: xsmall
+      row.add_cell '備考', style: xsmall
+    end
+
+    car.uses.where(use_day: @range_start..@range_end).each do |use|
+      remark = ''
+      if use.wash == '有'
+        remark << '洗車 '
+      else
+        remark << ''
+      end
+      if use.oil_change == '有'
+        remark << 'オイル交換 '
+      else
+        remark << ''
+      end
+      if use.self_inspection == '有'
+        remark << '自主点検 '
+      else
+        remark << ''
+      end
+      if use.inspection_st == '車検依頼'
+        remark << '車検依頼 '
+      else
+        remark << ''
+      end
+
+      sheet.add_row do |row|
+        row.add_cell "#{use.use_day.day}日", style: small
+        row.add_cell use.user.user_name, style: small
+        row.add_cell use.destination, style: small
+        row.add_cell use.odometer - use.distance, style: number
+        row.add_cell use.odometer, style: number
+        row.add_cell use.distance, style: number
+        row.add_cell use.refueling_amount, style: number
+        row.add_cell remark, style: small
+      end
+    end
+
+    sheet.add_row do |row|
+      row.add_cell '', style: xsmall_rbl
+      row.add_cell '', style: xsmall_rbl
+      row.add_cell '', style: xsmall_rbl
+      row.add_cell '', style: xsmall_rbl
+      row.add_cell '', style: xsmall_rbl
+      row.add_cell '', style: xsmall_rbl
+      row.add_cell '走行合計', style: xsmall
+      row.add_cell "#{monthly_uses.sum(:distance)} km", style: number
+    end
+    sheet.column_widths 5, 13, 19, 11.1, 11.1, 11.1, 9, 15.5
+  end
+end

@@ -1,0 +1,29 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | #{@car.car_name} #{@car.number}　メンテナンス情報
+.row.pb-2
+  .col
+    = link_to 'メンテナンス情報新規登録', new_company_manager_car_memo_path, class:'btn btn-outline-primary text-primary'
+    |　
+    = link_to '戻る', company_manager_cars_path(@company), class:'btn btn-outline-success text-success'
+.table-responsive
+  table.table.table-sm.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | メンテナンス日
+        th
+          | 内容
+        th
+          | メンテナンス情報
+    tbody
+      - @memos.each do |memo|
+        tr
+          td.align-middle.text-center
+            = l memo.memo_day, format: :default
+          td.align-middle.text-left
+            = memo.content
+          td.text-center
+            = link_to '編集', edit_company_manager_car_memo_path(@company, @car, memo), class:'btn btn-outline-secondary text-secondary btn-sm'
+            |　
+            = link_to '削除', company_manager_car_memo_path(@company, @car, memo), class:'btn btn-outline-secondary text-secondary btn-sm', method: :delete, data: { confirm: '本当に削除しますか?' }

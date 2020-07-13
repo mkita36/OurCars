@@ -1,0 +1,69 @@
+= form_with(model: [@company, @car, use], local: true) do |form|
+  - if use.errors.any?
+    #error_explanation
+      ul
+        - use.errors.full_messages.each do |message|
+          li
+            = message
+  .field.row
+    .col-4.text-right
+      = form.label :利用日
+    .col-8
+      = form.date_select :use_day
+  .field.row.font-weight-bold.align-items-center
+    .col-4.text-right
+      = form.label :メーター
+    .col-8
+      = form.number_field :odometer
+      br
+      - if @use.id
+        - if @use.id == @car.uses.order(:id).first.id
+          | (ひとつ前 #{@car.initial_odometer})
+        - else
+          | (ひとつ前 #{@car.uses.where('id < ?', @use.id).order(:id).last.odometer})
+      - else
+        - if @car.uses.count > 0
+          | (前回 #{@car.uses.order(:id).last.odometer})
+        - else
+          | (前回 #{@car.initial_odometer})
+  .field.row.font-weight-bold
+    .col-4.text-right
+      = form.label :行先
+    .col-8
+      = form.text_field :destination, size:"15"
+  .field.row
+    .col-4.text-right
+      = form.label :給油量
+    .col-8
+      - if @use.id
+        = form.number_field(:refueling_amount, step: '0.01')
+      - else
+        = form.number_field(:refueling_amount, step: '0.01', value:'0.00')
+  .field.row
+    .col-4.text-right
+      = form.label :洗車
+    .col-8
+      = form.select :wash, ['無','有']
+  .field.row
+    .col-4.text-right
+      = form.label :オイル交換
+    .col-8
+      = form.select :oil_change, ['無','有']
+  .field.row
+    .col-4.text-right
+      = form.label :自主点検
+    .col-8
+      = form.select :self_inspection, ['無','有']
+  .field.row
+    .col-4.text-right
+      = form.label :車検
+    .col-8
+      = form.select :inspection_st, ['無','車検依頼']
+  = form.hidden_field :user_id, value: current_user.id
+  .actions.text-right
+    -if @use.id
+      = link_to '戻る', company_car_uses_path(@company, @car), class:'btn btn-outline-success text-success'
+    - else
+      = link_to '戻る', company_status_index_path(@company), class:'btn btn-outline-success text-success'
+    |　
+    = form.submit('登録', class: 'btn btn-success')

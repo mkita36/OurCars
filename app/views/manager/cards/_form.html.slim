@@ -1,0 +1,15 @@
+= form_with(model: [@company, :manager, @user, card], local: true) do |form|
+  - if card.errors.any?
+    #error_explanation
+      ul
+        - card.errors.full_messages.each do |message|
+          li
+            = message
+  .field
+    .row
+      .col-5
+        = form.label :枚数
+      .col-7
+        = form.number_field :number
+  .actions
+    = form.submit("登録", class:'btn btn-primary')

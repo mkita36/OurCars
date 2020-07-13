@@ -1,0 +1,227 @@
+ja:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'バリデーションに失敗しました: %{errors}'
+
+  date:
+    formats:
+      default: "%y/%m/%d"
+      short: "%m/%d"
+      long: "%Y年%m月%d日(%a)"
+    day_names: [日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日]
+    abbr_day_names: [日, 月, 火, 水, 木, 金, 土]
+    month_names: [~, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    abbr_month_names: [~, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    order:
+      - :year
+      - :month
+      - :day
+
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: 約1時間
+        other: 約%{count}時間
+      about_x_months:
+        one: 約1ヶ月
+        other: 約%{count}ヶ月
+      about_x_years:
+        one: 約1年
+        other: 約%{count}年
+      almost_x_years:
+        one: 1年弱
+        other: "%{count}年弱"
+      half_a_minute: 30秒前後
+      less_than_x_seconds:
+        one: 1秒以内
+        other: "%{count}秒未満"
+      less_than_x_minutes:
+        one: 1分以内
+        other: "%{count}分未満"
+      over_x_years:
+        one: 1年以上
+        other: "%{count}年以上"
+      x_seconds:
+        one: 1秒
+        other: "%{count}秒"
+      x_minutes:
+        one: 1分
+        other: "%{count}分"
+      x_days:
+        one: 1日
+        other: "%{count}日"
+      x_months:
+        one: 1ヶ月
+        other: "%{count}ヶ月"
+      x_years:
+        one: 1年
+        other: "%{count}年"
+    prompts:
+      second: 秒
+      minute: 分
+      hour: 時
+      day: 日
+      month: 月
+      year: 年
+
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      accepted: を受諾してください
+      blank: を入力してください
+      confirmation: と%{attribute}の入力が一致しません
+      empty: を入力してください
+      equal_to: は%{count}にしてください
+      even: は偶数にしてください
+      exclusion: は予約されています
+      greater_than: は%{count}より大きい値にしてください
+      greater_than_or_equal_to: は%{count}以上の値にしてください
+      inclusion: は一覧にありません
+      invalid: は不正な値です
+      less_than: は%{count}より小さい値にしてください
+      less_than_or_equal_to: は%{count}以下の値にしてください
+      model_invalid: 'バリデーションに失敗しました: %{errors}'
+      not_a_number: は数値で入力してください
+      not_an_integer: は整数で入力してください
+      odd: は奇数にしてください
+      other_than: は%{count}以外の値にしてください
+      present: は入力しないでください
+      required: を入力してください
+      taken: は既に使用されています
+      too_long: は%{count}文字以内で入力してください
+      too_short: は%{count}文字以上で入力してください
+      wrong_length: は%{count}文字で入力してください
+      restrict_dependent_destroy:
+        has_one: "%{record}が存在しているので削除できません"
+        has_many: "%{record}が存在しているので削除できません"
+    template:
+      body: 次の項目を確認してください
+      header:
+        one: "%{model}にエラーが発生しました"
+        other: "%{model}に%{count}個のエラーが発生しました"
+
+  helpers:
+    select:
+      prompt: 選択してください
+    submit:
+      create: 登録する
+      submit: 保存する
+      update: 更新する
+
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%n%u"
+        precision: 0
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: 円
+    format:
+      delimiter: ","
+      precision: 3
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: 十億
+          million: 百万
+          quadrillion: 千兆
+          thousand: 千
+          trillion: 兆
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n%u"
+        units:
+          byte: バイト
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
+
+  support:
+    array:
+      last_word_connector: "、"
+      two_words_connector: "、"
+      words_connector: "、"
+
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      short: "%y/%m/%d %H:%M"
+      long: "%Y年%m月%d日(%a) %H時%M分%S秒 %Z"
+      date_only: "%Y/%m/%d"
+    am: "午前"
+    pm: "午後"
+
+  activerecord:
+    models:
+      admin: "アプリ管理者"
+      car: "車両"
+      company: "会社"
+      inspection: "車検"
+      manager: "管理ユーザー"
+      memo: "メンテナンス情報"
+      reservation: "予約"
+      user: "ユーザー"
+      use: "利用実績"
+    attributes:
+      car:
+        car_name: "車名"
+        region: "地域名・分類番号"
+        number: "平仮名・指定番号"
+        purchase_day: "購入日"
+        borrower: "管理者"
+        parking: "保管場所(車庫証明)"
+        tank: "タンク容量"
+        oil_frequency: "オイル交換頻度"
+        initial_odometer: "初期メーター"
+        initial_mileage: "初期燃費"
+        state: "状態"
+      company:
+        name: "会社名"
+      inspection:
+        fee: "車検料金"
+        limit: "次回車検満了日"
+        start_day: "依頼日"
+        end_day: "終了日"
+        memo: "メモ"
+      manager:
+        manager_name: "名前"
+      memo:
+        memo_day: "メンテナンス日"
+        content: "内容"
+      reservation:
+        reservation_day: "予約日"
+      user:
+        user_name: "名前"
+        card: "プリペイドカード"
+        uses: "利用実績"
+      use:
+        use_day: "利用日"
+        odometer: "メーター"
+        destination: "行先"
+        refueling_amount: "給油量"
+        wash: "洗車"
+        oil_change: "オイル交換"
+        inspection_st: "車検"
+        distance: "走行距離"

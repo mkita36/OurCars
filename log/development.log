@@ -1,0 +1,32 @@
+Started GET "/" for ::1 at 2020-07-14 07:58:24 +0900
+  [1m[35m (4.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/masahiro/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/railties-6.0.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/masahiro/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/railties-6.0.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 16.3ms | Allocations: 482)
+Completed 200 OK in 48ms (Views: 30.5ms | ActiveRecord: 0.0ms | Allocations: 2826)
+
+
+Started GET "/users/sign_in" for ::1 at 2020-07-14 07:58:29 +0900
+Processing by Users::SessionsController#new as HTML
+  Rendering users/sessions/new.html.slim within layouts/user_only_yield
+  Rendered users/sessions/new.html.slim within layouts/user_only_yield (Duration: 132.2ms | Allocations: 26706)
+[Webpacker] Compiling...
+[Webpacker] Compiled all packs in /Users/masahiro/works/OurCars/public/packs
+[Webpacker] Hash: b21c72b6d1eb20cae53a
+Version: webpack 4.43.0
+Time: 2472ms
+Built at: 2020/07/14 7:58:38
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-611004f19c8ea1db6866.js    124 KiB  application  [emitted] [immutable]  application
+js/application-611004f19c8ea1db6866.js.map    139 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-611004f19c8ea1db6866.js js/application-611004f19c8ea1db6866.js.map
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 160 bytes {application} [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 810 bytes {application} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 3 hidden modules
+
+Completed 200 OK in 8935ms (Views: 8846.7ms | ActiveRecord: 48.2ms | Allocations: 164852)
+
+

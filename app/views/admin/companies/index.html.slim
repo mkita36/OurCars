@@ -1,0 +1,28 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | 会社一覧
+.table-responsive
+  table.table.table-sm.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | 会社id
+        th
+          | 会社名
+        th
+          | 会社情報
+    tbody
+      - @company.each do |company|
+        tr
+          td.align-middle.text-center
+            = company.id
+          td.align-middle.text-center
+            = company.name
+          td.text-center
+            = link_to '編集', edit_admin_company_path(company), class:'btn btn-outline-secondary text-secondary btn-sm'
+            |　　
+            = link_to '削除', admin_company_path(company), class:'btn btn-outline-secondary text-secondary btn-sm', method: :delete, data: { confirm: '本当に削除しますか?' }
+            |　　
+            = link_to '管理ユーザー一覧', admin_company_managers_path(company), class:'btn btn-outline-secondary text-secondary btn-sm'
+br
+= link_to '新規登録', new_admin_company_path, class:'btn btn-outline-primary text-primary'

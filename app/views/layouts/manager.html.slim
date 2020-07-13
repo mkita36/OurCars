@@ -1,0 +1,31 @@
+doctype html
+html lang='ja'
+  head
+    title
+      | OurCars(manager)
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    .header
+      .container
+        .row.bg-primary.p-1
+          .col.text-center
+            = link_to '車両一覧', company_manager_cars_path
+          .col.text-center
+            = link_to '管理ユーザー一覧', company_manager_managers_path
+          .col.text-center
+            = link_to 'ユーザー一覧', company_manager_users_path
+          .col.text-center
+            = link_to 'ログアウト', destroy_manager_session_path, method: :delete
+    .main
+      .container
+        .row.justify-content-center
+          - if notice
+            #notice.notice
+              = notice
+          - if alert
+            #alert.alert
+              = alert
+        = yield

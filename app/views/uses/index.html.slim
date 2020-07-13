@@ -1,0 +1,59 @@
+h2.pt-2.pd-2
+  | 利用実績
+h5.font-weight-bold
+  = @car.car_name
+  |  
+  = @car.number
+  |　
+  = link_to '戻る', company_status_index_path(@company), class:'btn btn-sm btn-outline-success text-success'
+.table-responsive
+  table.table.table-bordered.text-nowrap
+    thead.text-center
+      tr
+        td
+          | 利用日
+        td
+          | 利用者
+        td
+          | 行先
+        td
+          | メーター
+        td
+          | 走行距離
+        td
+          | 給油
+        td
+          | 洗車
+        td
+          | ｵｲﾙ交換
+        td
+          | 自主点検
+        td
+          | 編集
+    tbody
+      - @uses.each do |use|
+        - last_use = @car.uses.where("id < #{use.id}").order(:id).last
+        tr
+          td
+            = l use.use_day, format: :default
+          td.text-center
+            = User.find(use.user_id).user_name
+          td
+            = use.destination
+          td.text-right
+            = use.odometer.to_s(:delimited)
+          td.text-right
+            = use.distance.to_s(:delimited)
+            | km
+          td.text-right
+            = sprintf("%.2f", use.refueling_amount)
+            | ℓ
+          td.text-center
+            = use.wash
+          td.text-center
+            = use.oil_change
+          td.text-center
+            = use.self_inspection
+          td.text-center
+            - if use.user == current_user
+              = link_to '編集', edit_company_car_use_path(@company, @car, use), class:'btn-secondary btn-sm'

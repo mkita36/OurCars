@@ -1,0 +1,59 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | #{@car.car_name} #{@car.number}　利用実績
+.row.pb-2
+  .col
+    = link_to '実績新規登録', new_company_manager_car_use_path, class:'btn btn-outline-primary text-primary'
+    |　
+    = link_to '戻る', company_manager_cars_path(@company), class:'btn btn-outline-success text-success'
+.table-responsive
+  table.table.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | 利用日
+        th
+          | 利用者
+        th
+          | 行先
+        th
+          | 利用後メーター
+        th
+          | 走行距離
+        th
+          | 給油量
+        th
+          | 洗車
+        th
+          | オイル交換
+        th
+          | 自主点検
+        th
+          | 利用実績
+    tbody
+      - @uses.each do |use|
+        - last_use = @car.uses.where("id < #{use.id}").last
+        tr
+          td.align-middle.text-center
+            = l use.use_day, format: :default
+          td.align-middle.text-center
+            = User.find(use.user_id).user_name
+          td.align-middle.text-center
+            = use.destination
+          td.align-middle.text-right
+            = use.odometer.to_s(:delimited)
+            |  km
+          td.align-middle.text-right
+            = use.distance.to_s(:delimited)
+            |  km
+          td.align-middle.text-right
+            = sprintf("%.2f", use.refueling_amount)
+            |  ℓ
+          td.align-middle.text-center
+            = use.wash
+          td.align-middle.text-center
+            = use.oil_change
+          td.align-middle.text-center
+            = use.self_inspection
+          td.align-middle.text-center
+            = link_to '編集', edit_company_manager_car_use_path(@company, @car, use), class:'btn btn-outline-secondary text-secondary btn-sm'

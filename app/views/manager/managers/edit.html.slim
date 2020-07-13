@@ -1,0 +1,5 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    | 管理ユーザー情報編集
+= render 'form', manager: @manager
+= link_to '戻る', company_manager_managers_path(@company), class:'btn btn-outline-success text-success'

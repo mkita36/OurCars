@@ -1,0 +1,18 @@
+h2.pt-2.pd-2
+  | 予約一覧
+h5.font-weight-bold
+  = @car.car_name
+  |  
+  = @car.number
+= month_calendar(attribute: :reservation_day, events: @reservations) do |date, reservations|
+  = date.day
+  - reservations.each do |reservation|
+    .text-center
+      = reservation.user.user_name
+      .text-min9
+        - if reservation.user == current_user
+          = link_to '削除', company_car_reservation_path(@company, @car, reservation), method: :delete, data: { confirm: '本当に削除しますか?' }, class:'btn-secondary btn-sm'
+.text-right
+  = link_to '戻る', company_status_index_path(@company), class:'btn btn-sm btn-outline-success text-success'
+  |　
+  = link_to '新規予約', new_company_car_reservation_path(@company, @car), class:'btn btn-sm btn-success'

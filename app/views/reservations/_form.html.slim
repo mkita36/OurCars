@@ -1,0 +1,14 @@
+= form_with(model: [@company, @car, reservation], local: true) do |form|
+  - if reservation.errors.any?
+    #error_explanation
+      ul
+        - reservation.errors.full_messages.each do |message|
+          li
+            = message
+  .field.h4.text-center
+    = form.label :' '
+    = form.date_select :reservation_day
+  = form.hidden_field :user_id, value: current_user.id
+  br
+  .actions.text-right
+    = form.submit('登録', class: 'btn btn-success')

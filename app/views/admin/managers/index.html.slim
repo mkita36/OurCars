@@ -1,0 +1,27 @@
+.row.pt-4.pb-2.align-items-center
+  .col.h3
+    = @company.name
+    |  管理ユーザー一覧
+.table-responsive
+  table.table.table-sm.table-bordered.table-striped.text-nowrap
+    thead.text-center
+      tr
+        th
+          | 名前
+        th
+          | メールアドレス
+        th
+          | 管理ユーザー情報
+    tbody
+    - @company.managers.each do |manager|
+      tr
+        td.align-middle
+          = manager.manager_name
+        td.align-middle
+          = manager.email
+        td.text-center
+          = link_to '編集', edit_admin_company_manager_path(@company, manager), class:'btn btn-outline-secondary text-secondary btn-sm'
+          |　　
+          = link_to '削除', admin_company_manager_path(@company, manager), class:'btn btn-outline-secondary text-secondary btn-sm', method: :delete, data: { confirm: '本当に削除しますか?' }
+br
+= link_to '新規登録', new_admin_company_manager_path, class:'btn btn-outline-primary text-primary'

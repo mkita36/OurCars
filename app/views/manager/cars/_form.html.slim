@@ -51,13 +51,13 @@
       .col-5
         = form.label :タンク容量（ℓ）
       .col-7
-        = form.number_field(:tank, in: 20..120, step:5, value:70)
+        = form.number_field(:tank, in: 20..120, step:5, placeholder: 50)
   .field
     .row
       .col-5
         = form.label :オイル交換頻度（km）
       .col-7
-        = form.number_field(:oil_frequency, in: 2000..30000, step:1000, value:5000)
+        = form.number_field(:oil_frequency, in: 2000..30000, step:1000, placeholder: 5000)
   .field
     .row
       .col-5

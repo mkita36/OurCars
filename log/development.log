@@ -2426,3 +2426,382 @@ FOREIGN KEY ("user_id")
   [1m[36mCar Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "cars" WHERE "cars"."number" = $1 AND "cars"."id" != $2 AND "cars"."region" = $3 LIMIT $4[0m  [["number", "み5439"], ["id", 7], ["region", "越谷156"], ["LIMIT", 1]]
   [1m[36mCar Update (0.4ms)[0m  [1m[33mUPDATE "cars" SET "mileage" = $1, "updated_at" = $2 WHERE "cars"."id" = $3[0m  [["mileage", 10.039310553371635], ["updated_at", "2020-07-14 08:21:01.659854"], ["id", 7]]
   [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for ::1 at 2020-08-05 18:48:34 +0900
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/masahiro/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/railties-6.0.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/masahiro/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/railties-6.0.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 15.1ms | Allocations: 482)
+Completed 200 OK in 58ms (Views: 27.4ms | ActiveRecord: 0.0ms | Allocations: 5418)
+
+
+Started GET "/managers/sign_in" for ::1 at 2020-08-05 18:48:45 +0900
+Processing by Managers::SessionsController#new as HTML
+  Rendering managers/sessions/new.html.slim within layouts/manager_only_yield
+  Rendered managers/sessions/new.html.slim within layouts/manager_only_yield (Duration: 95.0ms | Allocations: 26280)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 302ms (Views: 256.3ms | ActiveRecord: 12.6ms | Allocations: 70222)
+
+
+Started POST "/managers/sign_in" for ::1 at 2020-08-05 18:48:51 +0900
+Processing by Managers::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"I8kmPjGZPKJ+Uy7OtiHGgGEmJUoSm9v701lxS63kui9DOU7xyMV2+kRHdvOhP+ReEJW+LtxwrunMbpjiRMqnUw==", "manager"=>{"email"=>"i-suzuki@sp.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"ログイン"}
+  [1m[36mManager Load (2.4ms)[0m  [1m[34mSELECT "managers".* FROM "managers" WHERE "managers"."email" = $1 ORDER BY "managers"."id" ASC LIMIT $2[0m  [["email", "i-suzuki@sp.com"], ["LIMIT", 1]]
+  [1m[36mCompany Load (0.4ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:16:in `after_sign_in_path_for'
+Redirected to http://localhost:3000/companies/1/manager/cars
+Completed 302 Found in 281ms (ActiveRecord: 7.5ms | Allocations: 13237)
+
+
+Started GET "/companies/1/manager/cars" for ::1 at 2020-08-05 18:48:51 +0900
+Processing by Manager::CarsController#index as HTML
+  Parameters: {"company_id"=>"1"}
+  [1m[36mManager Load (0.4ms)[0m  [1m[34mSELECT "managers".* FROM "managers" WHERE "managers"."id" = $1 ORDER BY "managers"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCompany Load (4.5ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY "companies"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:33:in `check_manager_company'
+  [1m[36mCompany Load (0.3ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:34:in `check_manager_company'
+  [1m[36mCompany Load (0.4ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:34:in `check_manager_company'
+  [1m[36mCACHE Company Load (0.0ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/manager/cars_controller.rb:74:in `set_company'
+  Rendering manager/cars/index.html.slim within layouts/manager
+  [1m[36mCar Load (0.9ms)[0m  [1m[34mSELECT "cars".* FROM "cars" WHERE "cars"."company_id" = $1 ORDER BY "cars"."created_at" DESC[0m  [["company_id", 1]]
+  ↳ app/views/manager/cars/index.html.slim:44
+  [1m[36mInspection Load (0.6ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 7]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mInspection Load (2.1ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1 ORDER BY "inspections"."id" DESC LIMIT $2[0m  [["car_id", 7], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:54
+  [1m[36mUse Load (0.9ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 7], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 7], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:61
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 7], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:63
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 7], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 7], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 7], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 7], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 7], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mInspection Load (1.9ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 6]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mInspection Load (0.4ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1 ORDER BY "inspections"."id" DESC LIMIT $2[0m  [["car_id", 6], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:54
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 6], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:61
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:63
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 6], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mUse Load (1.3ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 6], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 6], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mInspection Load (0.4ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 5]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mInspection Load (0.3ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1 ORDER BY "inspections"."id" DESC LIMIT $2[0m  [["car_id", 5], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:54
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 5], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:61
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:63
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 5], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mUse Load (2.9ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 5], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 5], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mInspection Load (4.4ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 4]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 4], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 4], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mInspection Load (15.6ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 3]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 3], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:61
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:63
+  [1m[36mUse Load (2.3ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 3], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 3], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mUse Load (1.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 3], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mCACHE Use Load (0.1ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mInspection Load (0.4ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 2]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mInspection Load (1.2ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1 ORDER BY "inspections"."id" DESC LIMIT $2[0m  [["car_id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:54
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 2], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.7ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 2], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:61
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 2], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:63
+  [1m[36mUse Load (2.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 2], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mUse Load (2.2ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 2], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 2], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mInspection Load (0.4ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 1]]
+  ↳ app/views/manager/cars/index.html.slim:53
+  [1m[36mInspection Load (0.4ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1 ORDER BY "inspections"."id" DESC LIMIT $2[0m  [["car_id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:54
+  [1m[36mUse Load (1.2ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2[0m  [["car_id", 1], ["wash", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:60
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:61
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."wash" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["wash", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:63
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 1], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/index.html.slim:70
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:71
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 ORDER BY "uses"."id" DESC LIMIT $2[0m  [["car_id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/index.html.slim:73
+  Rendered manager/cars/index.html.slim within layouts/manager (Duration: 591.7ms | Allocations: 105234)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 761ms (Views: 563.2ms | ActiveRecord: 85.9ms | Allocations: 135448)
+
+
+Started GET "/companies/1/manager/monthly_report.xlsx?range%5Brange%281i%29%5D=2020&range%5Brange%282i%29%5D=7&range%5Brange%283i%29%5D=1&commit=%E9%81%8B%E8%BB%A2%E6%9C%88%E5%A0%B1+%E5%87%BA%E5%8A%9B" for ::1 at 2020-08-05 18:48:56 +0900
+Processing by Manager::CarsController#monthly_report as XLSX
+  Parameters: {"range"=>{"range(1i)"=>"2020", "range(2i)"=>"7", "range(3i)"=>"1"}, "commit"=>"運転月報 出力", "company_id"=>"1"}
+  [1m[36mManager Load (6.0ms)[0m  [1m[34mSELECT "managers".* FROM "managers" WHERE "managers"."id" = $1 ORDER BY "managers"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCompany Load (0.4ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY "companies"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:33:in `check_manager_company'
+  [1m[36mCompany Load (12.3ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:34:in `check_manager_company'
+  [1m[36mCompany Load (2.2ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:34:in `check_manager_company'
+  [1m[36mCACHE Company Load (0.0ms)[0m  [1m[34mSELECT "companies".* FROM "companies" WHERE "companies"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/manager/cars_controller.rb:74:in `set_company'
+  Rendering manager/cars/monthly_report.xlsx.axlsx
+  [1m[36mCar Load (0.6ms)[0m  [1m[34mSELECT "cars".* FROM "cars" WHERE "cars"."company_id" = $1 ORDER BY "cars"."created_at" DESC[0m  [["company_id", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:16
+  [1m[36mUse Load (2.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 7], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mUse Load (1.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 7], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:53
+  [1m[36mInspection Load (0.5ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 7]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (4.3ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 7]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 7], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 7], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:77
+  [1m[36mUse Load (0.9ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 7], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 7], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 6], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:53
+  [1m[36mInspection Load (0.6ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 6]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 6]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 6], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mCACHE Use Load (0.1ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:77
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 6], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:80
+  [1m[36mUse Load (0.9ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 6], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 6], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  [1m[36mUse Load (0.3ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 5], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mUse Load (0.3ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:53
+  [1m[36mInspection Load (0.3ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 5]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 5]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 5], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:77
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 5], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:80
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 5], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 5], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  [1m[36mUse Load (0.3ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 4], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mInspection Load (1.5ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 4]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 4]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.1ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 4], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 4], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 4], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  [1m[36mUse Load (0.9ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 3], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mUse Load (1.1ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:53
+  [1m[36mInspection Load (0.7ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 3]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (3.9ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 3]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 3], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mCACHE Use Load (0.1ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:77
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 3], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:80
+  [1m[36mUse Load (0.6ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 3], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 3], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 2], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mUse Load (0.7ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 2], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:53
+  [1m[36mInspection Load (4.0ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 2]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (0.7ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 2]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 2], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mCACHE Use Load (0.1ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 2], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:77
+  [1m[36mUse Load (5.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 2], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mUser Load (2.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 2], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  [1m[36mUse Load (1.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 1], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:52
+  [1m[36mUse Load (0.4ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:53
+  [1m[36mInspection Load (0.3ms)[0m  [1m[34mSELECT "inspections".* FROM "inspections" WHERE "inspections"."car_id" = $1[0m  [["car_id", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:58
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1[0m  [["car_id", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:75
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2[0m  [["car_id", 1], ["oil_change", "有"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:76
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:77
+  [1m[36mCACHE Use Load (0.0ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."oil_change" = $2 ORDER BY "uses"."id" DESC LIMIT $3[0m  [["car_id", 1], ["oil_change", "有"], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:80
+  [1m[36mUse Load (0.5ms)[0m  [1m[34mSELECT "uses".* FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3 ORDER BY "uses"."created_at" ASC[0m  [["car_id", 1], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:146
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:171
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT SUM("uses"."distance") FROM "uses" WHERE "uses"."car_id" = $1 AND "uses"."use_day" BETWEEN $2 AND $3[0m  [["car_id", 1], ["use_day", "2020-07-01"], ["use_day", "2020-07-31"]]
+  ↳ app/views/manager/cars/monthly_report.xlsx.axlsx:189
+  Rendered manager/cars/monthly_report.xlsx.axlsx (Duration: 912.3ms | Allocations: 168072)
+Completed 200 OK in 971ms (Views: 858.6ms | ActiveRecord: 88.6ms | Allocations: 174222)
+
+
